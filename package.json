@@ -1,0 +1,24 @@
+{
+  "name": "js-apollo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^2.25.0",
+    "apollo-server-express": "^2.25.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "graphql": "^15.5.0",
+    "graphql-constraint-directive": "^2.1.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "prisma": "^2.25.0"
+  }
+}

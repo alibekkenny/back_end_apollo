@@ -1,0 +1,60 @@
+directive @constraint(
+    # String constraints
+    minLength: Int
+    maxLength: Int
+    startsWith: String
+    endsWith: String
+    notContains: String
+    pattern: String
+    format: String
+
+    # Number constraints
+    min: Int
+    max: Int
+    exclusiveMin: Int
+    exclusiveMax: Int
+    multipleOf: Int
+  ) on INPUT_FIELD_DEFINITION
+
+type Query {
+  users: [User!]
+  user(id: Int!): User
+  posts: [Post!]
+  post(id: Int!): Post
+}
+
+type Mutation {
+  createUser(input: UserInput): User
+  updateUser(id: Int!, input: UserInput): User
+  deleteUser(id: Int!): User
+  createPost(input: PostInput): Post
+  updatePost(id: Int!,input: PostInput): Post
+  deletePost(id: Int!): Post
+}
+
+
+type User {
+  id: Int!
+  first_name: String!
+  avatar: String!
+  posts: [Post!]
+}
+
+input UserInput {
+  first_name: String! @constraint(pattern: "^[a-zA-Z]*$", minLength: 3, maxLength: 30)
+  avatar: String! 
+  posts: [PostInput]
+}
+
+type Post {
+  id: Int!
+  title: String!
+  content: String!
+  authorId: Int!
+}
+
+input PostInput {
+  title: String! @constraint(minLength: 3, maxLength: 30)
+  content: String! @constraint(minLength: 5)
+  authorId: Int!
+}
