@@ -1,16 +1,18 @@
 const express = require('express');
 const cors = require('cors');
-const { ApolloServer, gql } = require('apollo-server-express');
+const { ApolloServer, gql, makeExecutableSchema } = require('apollo-server-express');
 const fs = require('fs');
 const path = require('path');
 const { PrismaClient } = require('@prisma/client')
 const { resolvers } = require('./resolvers');
-const { makeExecutableSchema } = require('graphql-tools')
-const ConstraintDirective = require('graphql-constraint-directive')
+const ConstraintDirective = require('apollo-server-constraint-directive')
 
 const prisma = new PrismaClient()
 
 async function main() {
+  const schemaDirectives = {
+    constraint: ConstraintDirective,
+  };
   const server = new ApolloServer({
     schema: makeExecutableSchema({
       typeDefs: fs.readFileSync(
@@ -18,8 +20,8 @@ async function main() {
         'utf8'
       ),
       resolvers,
+      schemaDirectives,
     }),
-    schemaDirectives: { constraint: ConstraintDirective },
     context: {
       prisma,
     }

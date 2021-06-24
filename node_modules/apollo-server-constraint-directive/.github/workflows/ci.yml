@@ -1,0 +1,29 @@
+on: ["push", "pull_request"]
+
+name: Test Coverage
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+
+    - name: npm install, test coverage
+      run: |
+        npm ci
+        npm run test
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: unittests
+        name: apollo-server-directives
+        fail_ci_if_error: true
